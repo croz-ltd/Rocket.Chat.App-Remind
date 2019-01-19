@@ -1,0 +1,15 @@
+{
+    "id": "29d6e7df-d111-4b24-835c-c580fe511e2f",
+    "version": "0.0.1",
+    "requiredApiVersion": "^1.3.2",
+    "iconFile": "icon.png",
+    "author": {
+        "name": "Milan Jovanović",
+        "homepage": "https://github.com/mjovanovic0/rocketchat-remind-app.git",
+        "support": "https://github.com/mjovanovic0/rocketchat-remind-app.git"
+    },
+    "name": "Remind",
+    "nameSlug": "remind",
+    "classFile": "RemindApp.ts",
+    "description": "A simple app to remind people on Rocket.Chat. Usage: /remind [@someone or #channel] [what] [when]"
+}
