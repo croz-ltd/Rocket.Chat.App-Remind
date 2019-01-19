@@ -1,5 +1,5 @@
 import {
-    ILogger,
+    IConfigurationExtend, ILogger,
 } from '@rocket.chat/apps-engine/definition/accessors';
 import { App } from '@rocket.chat/apps-engine/definition/App';
 import { IAppInfo } from '@rocket.chat/apps-engine/definition/metadata';
