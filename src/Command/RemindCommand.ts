@@ -39,6 +39,11 @@ export class RemindCommand implements ISlashCommand {
         const when: string = fullCommand.substring(lastIn + 4);
         const what: string = fullCommand.substring(fullCommand.indexOf(who) + who.length + 1, lastIn);
 
+        if (lastIn <= 0) {
+            await this.sendMessageToCreator('Fail to understand when you want me to remind you. :confused:', postAs, aliasHolder.value, meAndBotRoom, modify);
+            throw new Error('Fail to understand when you want me to remind you. :confused:');
+        }
+
         const isMe: boolean = who === 'me' || who === `@${me.username}`;
 
         let targetRoom: IRoom;
@@ -53,9 +58,12 @@ export class RemindCommand implements ISlashCommand {
 
             const postAsInTargetRoom = targetRoom.userIds?.find((uid) => uid === postAs.id);
             if (!postAsInTargetRoom && targetRoom.type === RoomType.PRIVATE_GROUP) {
-                throw new Error(`Sorry, post as user '${postAs.username}' is not a member of target channel '${who.slice(1)}' and will not be able to deliver message. Please add that user to channel first.`);
+                const errorMessage = `Sorry, post as user '${postAs.username}' is not a member of target channel '${who.slice(1)}' and will not be able to deliver message. Please add that user to channel first.`;
+                await this.sendMessageToCreator(errorMessage, postAs, aliasHolder.value, meAndBotRoom, modify);
+                throw new Error(errorMessage);
             }
         } else {
+            await this.sendMessageToCreator('Sorry, I don\'t recognize who you want me to remind', postAs, aliasHolder.value, meAndBotRoom, modify);
             throw new Error('Sorry, I don\'t recognize who you want me to remind');
         }
 
@@ -66,21 +74,12 @@ export class RemindCommand implements ISlashCommand {
             alias: aliasHolder.value,
         }));
 
-        const builder = modify
-            .getCreator()
-            .startMessage()
-            .setSender(postAs)
-            .setRoom(meAndBotRoom)
-            .setText(`:thumbsup: I will remind ${(isMe ? 'you' : who)} to "${what}" in "${when}".`)
-            .setUsernameAlias(aliasHolder.value);
-
-        await modify.getCreator().finish(builder);
+        const message = `:thumbsup: I will remind ${(isMe ? 'you' : who)} to "${what}" in "${when}".`;
+        await this.sendMessageToCreator(message, postAs, aliasHolder.value, meAndBotRoom, modify);
     }
 
     private async findDirectChannelOrCreate(postAs: IUser, me: IUser, read: IRead, modify: IModify): Promise<IRoom> {
-        console.log('[findMeAndBotRoom] starting');
         let room = await read.getRoomReader().getDirectByUsernames([postAs.username, me.username]);
-        console.log('[findMeAndBotRoom] found room', room);
         if (room === undefined) {
             const builder = modify.getCreator().startRoom()
                 .setCreator(postAs)
@@ -88,11 +87,20 @@ export class RemindCommand implements ISlashCommand {
                 .setMembersToBeAddedByUsernames([me.username]);
 
             const status = await modify.getCreator().finish(builder);
-            console.log('[findMeAndBotRoom] Status:', status);
             room = await read.getRoomReader().getDirectByUsernames([postAs.username, me.username]);
-            console.log('[findMeAndBotRoom] found again room', room);
         }
-        console.log('[findMeAndBotRoom] finishing');
         return room;
+    }
+
+    private async sendMessageToCreator(message: string, postAs: IUser, alias: string, meAndBotRoom: IRoom, modify: IModify) {
+        const builder = modify
+            .getCreator()
+            .startMessage()
+            .setSender(postAs)
+            .setRoom(meAndBotRoom)
+            .setText(message)
+            .setUsernameAlias(alias);
+
+        await modify.getCreator().finish(builder);
     }
 }
