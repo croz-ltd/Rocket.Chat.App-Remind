@@ -13,7 +13,7 @@ export class RemindApp extends App {
 
     public async initialize(configuration: IConfigurationExtend): Promise<void> {
         await configuration.slashCommands.provideSlashCommand(new RemindCommand(this));
-        await configuration.scheduler.registerProcessors([new ScheduleProcessor('hey')]);
+        await configuration.scheduler.registerProcessors([new ScheduleProcessor('remind-app')]);
 
         await configuration.settings.provideSetting({
             id : 'post-as',
@@ -21,7 +21,7 @@ export class RemindApp extends App {
             i18nDescription: 'Choose the username that this integration will post as.\nThe user must already exist.',
             required: true,
             type: SettingType.STRING,
-            public: true,
+            public: false,
             packageValue: 'rocket.cat',
         });
         await configuration.settings.provideSetting({
@@ -30,7 +30,7 @@ export class RemindApp extends App {
             i18nDescription: 'Choose the alias that will appear before the username in messages.',
             required: false,
             type: SettingType.STRING,
-            public: true,
+            public: false,
             packageValue: undefined,
         });
     }

@@ -9,8 +9,6 @@ export class ScheduleProcessor implements IProcessor {
     }
 
     public async processor(jobContext: IJobContext, read: IRead, modify: IModify, http: IHttp, persis: IPersistence): Promise<void> {
-        console.log('tick!');
-
         const reminder = modify
             .getCreator()
             .startMessage()
