@@ -4,6 +4,7 @@
         "@typescript-eslint/eslint-plugin": "^4.6.0",
         "@typescript-eslint/eslint-plugin-tslint": "^4.6.0",
         "@typescript-eslint/parser": "^4.6.0",
+        "@types/node": "^12.12.7",
         "eslint": "^7.12.1",
         "eslint-config-prettier": "^6.15.0",
         "eslint-plugin-import": "^2.22.1",
@@ -12,8 +13,5 @@
         "prettier": "^2.1.2",
         "tslint": "^5.18.0",
         "typescript": "^4.0.5"
-    },
-    "dependencies": {
-        "@types/node": "^12.12.7"
     }
 }
