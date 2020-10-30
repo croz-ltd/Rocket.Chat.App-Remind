@@ -8,8 +8,9 @@
         "homepage": "https://github.com/mjovanovic0/rocketchat-remind-app.git",
         "support": "https://github.com/mjovanovic0/rocketchat-remind-app.git"
     },
-    "name": "Remind",
+    "name": "Remind Me",
     "nameSlug": "remind",
     "classFile": "RemindApp.ts",
-    "description": "A simple app to remind people on Rocket.Chat. Usage: /remind [@someone or #channel] [what] [when]"
+    "description": "A simple app to remind people on Rocket.Chat. Usage: /remind [@someone or #channel] [what] [when]",
+    "implements": []
 }
