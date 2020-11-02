@@ -4,9 +4,9 @@
     "requiredApiVersion": "^1.19.0",
     "iconFile": "icon.png",
     "author": {
-        "name": "Milan Jovanović",
-        "homepage": "https://github.com/mjovanovic0/rocketchat-remind-app.git",
-        "support": "https://github.com/mjovanovic0/rocketchat-remind-app.git"
+        "name": "CROZ",
+        "homepage": "https://github.com/croz-ltd/Rocket.Chat.App-Remind",
+        "support": "https://github.com/croz-ltd/Rocket.Chat.App-Remind"
     },
     "name": "Remind Me",
     "nameSlug": "remind",
