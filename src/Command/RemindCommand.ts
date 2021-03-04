@@ -35,7 +35,8 @@ export class RemindCommand implements ISlashCommand {
         // TODO: Maybe find better way ti parse message...
         const fullCommand: string = context.getArguments().join(' ');
         const who: string = context.getArguments()[0];
-        const lastIn: number = fullCommand.lastIndexOf(' in ');
+        // const lastIn: number = fullCommand.lastIndexOf(' in ');
+        const lastIn: number = this.regexLastIndexOf(fullCommand, new RegExp(' (in|at) '));
         const when: string = fullCommand.substring(lastIn + 4);
         const what: string = fullCommand.substring(fullCommand.indexOf(who) + who.length + 1, lastIn);
 
@@ -67,7 +68,7 @@ export class RemindCommand implements ISlashCommand {
             throw new Error('Sorry, I don\'t recognize who you want me to remind');
         }
 
-        await modify.getScheduler().scheduleOnce(new RemindMeOnceSchedule('hey', when, {
+        await modify.getScheduler().scheduleOnce(new RemindMeOnceSchedule('remind-app', when, {
             sender: postAs,
             room: targetRoom,
             text: isMe ? `You asked me to remind you to "${what}".` : `@${me.username} asked me to remind you to "${what}".`,
@@ -102,5 +103,24 @@ export class RemindCommand implements ISlashCommand {
             .setUsernameAlias(alias);
 
         await modify.getCreator().finish(builder);
+    }
+
+    private regexLastIndexOf(input: string, regex: RegExp, startpos?: number): number {
+        regex = (regex.global) ? regex : new RegExp(regex.source, 'g' + (regex.ignoreCase ? 'i' : '') + (regex.multiline ? 'm' : ''));
+        if (typeof (startpos) === 'undefined') {
+            startpos = input.length;
+        } else if (startpos < 0) {
+            startpos = 0;
+        }
+        const stringToWorkWith = input.substring(0, startpos + 1);
+        let lastIndexOf = -1;
+        let nextStop = 0;
+        let result;
+        // tslint:disable-next-line:no-conditional-assignment
+        while ((result = regex.exec(stringToWorkWith)) != null) {
+            lastIndexOf = result.index;
+            regex.lastIndex = ++nextStop;
+        }
+        return lastIndexOf;
     }
 }

@@ -1,7 +1,7 @@
 {
     "id": "29d6e7df-d111-4b24-835c-c580fe511e2f",
-    "version": "0.0.1",
-    "requiredApiVersion": "^1.19.0",
+    "version": "0.0.2",
+    "requiredApiVersion": "1.23.0",
     "iconFile": "icon.png",
     "author": {
         "name": "CROZ",
