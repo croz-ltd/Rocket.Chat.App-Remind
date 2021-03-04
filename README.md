@@ -34,7 +34,7 @@ rocket.cat: You asked me to remind you to "to go out and take long walk".
 ### Time Formating
 
 As Rocket.Chat implemented Scheduler API is using [agenda.js](https://github.com/agenda/agenda), 
-time formatting rules for reminders are defined by agneda.js.
+time formatting rules for reminders are defined by agenda.js.
 
 ### Configuration
 
